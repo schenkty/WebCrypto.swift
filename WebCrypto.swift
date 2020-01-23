@@ -266,9 +266,9 @@ open class WebCrypto: NSObject, WKScriptMessageHandler{
     open func dataFromHexEncodedString( _ hex: String) -> Data {
         var hex = hex
         var data = Data()
-        while(hex.characters.count > 0) {
-            let c: String = hex.substring(to: hex.index(hex.startIndex, offsetBy: 2))
-            hex = hex.substring(from: hex.index(hex.startIndex, offsetBy: 2))
+        while(hex.count > 0) {
+            let c: String = String(hex[..<hex.index(hex.startIndex, offsetBy: 2)])
+            hex = String(hex[hex.index(hex.startIndex, offsetBy: 2)...])
             var ch: UInt32 = 0
             Scanner(string: c).scanHexInt32(&ch)
             var char = UInt8(ch)
@@ -293,7 +293,7 @@ private extension WKWebView{
             finished = true
         }
         while !finished{
-            RunLoop.current.run(mode: .defaultRunLoopMode, before: Date.distantFuture)
+            RunLoop.current.run(mode: .default, before: Date.distantFuture)
         }
     }
 }
